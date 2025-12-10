@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: forum_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: hellochalasdk
+      MYSQL_DATABASE: forum-db
+      MYSQL_USER: adminuser
+      MYSQL_PASSWORD: 12345678
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - forum_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: forum_phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: hellochalasdk
+    ports:
+      - "8081:80"
+    networks:
+      - forum_network
+
+networks:
+  forum_network:
+    driver: bridge
