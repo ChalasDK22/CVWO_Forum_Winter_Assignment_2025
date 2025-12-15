@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"log"
 
-	"chalas.com/forum_project/API/internal/Config"
+	"chalas.com/forum_project/API/internal/config"
 	"chalas.com/forum_project/API/pkg/internalsql"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	chalas_router := gin.Default()
-	chalas_config, err := Config.ConfigLoad()
+	chalas_config, err := config.ConfigLoad()
 	if err != nil {
 
 		log.Fatal(err)
