@@ -14,7 +14,8 @@ func ConnectAPI_MYSQL(chalasconfig *config.Config) (*sql.DB, error) {
 		chalasconfig.Chalas_Forum_Admin_Username,
 		chalasconfig.Chalas_Forum_Admin_Password,
 		chalasconfig.Chalas_Forum_Host,
-		chalasconfig.WebAPP_Port,
+		//chalasconfig.WebAPP_Port,
+		chalasconfig.Chalas_Forum_Port,
 		chalasconfig.Chalas_Forum_Name,
 	)
 	chalas_mydb, err := sql.Open("mysql", sourcename)

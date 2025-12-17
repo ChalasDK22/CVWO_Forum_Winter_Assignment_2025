@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 10, 2025 at 02:34 PM
+-- Generation Time: Dec 16, 2025 at 01:49 PM
 -- Server version: 9.5.0
 -- PHP Version: 8.3.26
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `COMMENTS` (
-  `topic_id` int NOT NULL,
+  `topicID` int NOT NULL,
   `user_id` int NOT NULL,
   `post_date` date NOT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `COMMENTS` (
 -- Dumping data for table `COMMENTS`
 --
 
-INSERT INTO `COMMENTS` (`topic_id`, `user_id`, `post_date`, `content`, `post_id`, `comment_id`) VALUES
+INSERT INTO `COMMENTS` (`topicID`, `user_id`, `post_date`, `content`, `post_id`, `comment_id`) VALUES
 (1, 2, '2024-06-02', 'Welcome to the forum!', 1, 1),
 (1, 5, '2024-06-03', 'Nice introduction!', 1, 2),
 (2, 3, '2024-06-04', 'AI is incredible lately.', 3, 3),
@@ -64,7 +64,7 @@ INSERT INTO `COMMENTS` (`topic_id`, `user_id`, `post_date`, `content`, `post_id`
 --
 
 CREATE TABLE `POSTS` (
-  `topic_id` int NOT NULL,
+  `topicID` int NOT NULL,
   `user_id` int NOT NULL,
   `post_date` date NOT NULL,
   `title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -76,13 +76,13 @@ CREATE TABLE `POSTS` (
 -- Dumping data for table `POSTS`
 --
 
-INSERT INTO `POSTS` (`topic_id`, `user_id`, `post_date`, `title`, `content`, `post_id`) VALUES
+INSERT INTO `POSTS` (`topicID`, `user_id`, `post_date`, `title`, `content`, `post_id`) VALUES
 (1, 1, '2024-06-01', 'Hello everyone!', 'Glad to be here.', 1),
 (1, 3, '2024-06-02', 'Nice to meet you all', 'Excited to join.', 2),
 (2, 2, '2024-06-03', 'AI is growing fast', 'AI will shape the future.', 3),
 (2, 7, '2024-06-04', 'Tech Opinion', 'VR and AR adoption is increasing.', 4),
 (3, 3, '2024-06-05', 'Best game this year?', 'Looking for new game suggestions.', 5),
-(3, 8, '2024-06-06', 'Game Thoughts', 'This year’s releases are amazing.', 6),
+(3, 8, '2024-06-06', 'Game Thoughts', 'This year’service releases are amazing.', 6),
 (4, 4, '2024-06-07', 'Trip to Japan', 'Kyoto temples were stunning.', 7),
 (4, 6, '2024-06-08', 'Travel Help', 'Planning a trip soon, need ideas.', 8),
 (5, 5, '2024-06-09', 'My Pasta Recipe', 'Sharing my best creamy pasta recipe.', 9),
@@ -95,7 +95,7 @@ INSERT INTO `POSTS` (`topic_id`, `user_id`, `post_date`, `title`, `content`, `po
 --
 
 CREATE TABLE `TOPICS` (
-  `topic_id` int NOT NULL,
+  `topicID` int NOT NULL,
   `user_id` int NOT NULL,
   `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
@@ -105,7 +105,7 @@ CREATE TABLE `TOPICS` (
 -- Dumping data for table `TOPICS`
 --
 
-INSERT INTO `TOPICS` (`topic_id`, `user_id`, `name`, `description`) VALUES
+INSERT INTO `TOPICS` (`topicID`, `user_id`, `name`, `description`) VALUES
 (6, 6, 'Music Lounge', 'Discuss your favorite songs, artists, and albums.'),
 (7, 7, 'Fitness & Health', 'Share workouts, routines, and wellness tips.'),
 (8, 8, 'Movies & TV Shows', 'Talk about films, series, and reviews.'),
@@ -166,13 +166,41 @@ ALTER TABLE `POSTS`
 -- Indexes for table `TOPICS`
 --
 ALTER TABLE `TOPICS`
-  ADD PRIMARY KEY (`topic_id`);
+  ADD PRIMARY KEY (`topicID`);
 
 --
 -- Indexes for table `USERS`
 --
 ALTER TABLE `USERS`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `COMMENTS`
+--
+ALTER TABLE `COMMENTS`
+  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `POSTS`
+--
+ALTER TABLE `POSTS`
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `TOPICS`
+--
+ALTER TABLE `TOPICS`
+  MODIFY `topicID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `USERS`
+--
+ALTER TABLE `USERS`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

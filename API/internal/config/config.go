@@ -4,6 +4,8 @@ import (
 	//"fmt"
 	"fmt"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/joho/godotenv"
 )
@@ -18,7 +20,14 @@ type Config struct {
 }
 
 func ConfigLoad() (*Config, error) {
-	err := godotenv.Load(".env")
+
+	//{
+	var _, b, _, _ = runtime.Caller(0)
+	var ProjectRootPath = filepath.Join(filepath.Dir(b), "../../../")
+	fmt.Println(ProjectRootPath)
+	err := godotenv.Load(ProjectRootPath + "/.env")
+	//}
+	//err := godotenv.Load(".env")
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}
