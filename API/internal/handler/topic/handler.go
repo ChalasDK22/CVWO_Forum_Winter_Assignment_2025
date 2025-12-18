@@ -11,15 +11,15 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type topicHandler struct {
+type Handler struct {
 	api          *gin.Engine
 	validate     *validator.Validate
 	topicService topic.TopicService
 }
 
 // New Handler
-func NewTopicHandler(api *gin.Engine, validate *validator.Validate, topicService topic.TopicService) *topicHandler {
-	return &topicHandler{
+func NewTopicHandler(api *gin.Engine, validate *validator.Validate, topicService topic.TopicService) *Handler {
+	return &Handler{
 		api:          api,
 		validate:     validate,
 		topicService: topicService,
@@ -27,7 +27,7 @@ func NewTopicHandler(api *gin.Engine, validate *validator.Validate, topicService
 }
 
 // Create Topic
-func (h *topicHandler) CreateTopic(c *gin.Context) {
+func (h *Handler) CreateTopic(c *gin.Context) {
 	var (
 		ctx    = c.Request.Context()
 		req    dto.CreateTopicRequest
@@ -55,7 +55,7 @@ func (h *topicHandler) CreateTopic(c *gin.Context) {
 }
 
 // Update Topic
-func (h *topicHandler) UpdateTopic(c *gin.Context) {
+func (h *Handler) UpdateTopic(c *gin.Context) {
 	var (
 		ctx     = c.Request.Context()
 		req     dto.UpdateTopicRequest
@@ -87,7 +87,7 @@ func (h *topicHandler) UpdateTopic(c *gin.Context) {
 }
 
 // Delete Topic
-func (h *topicHandler) DeleteTopic(c *gin.Context) {
+func (h *Handler) DeleteTopic(c *gin.Context) {
 	var (
 		ctx     = c.Request.Context()
 		topicID = c.Param("topic_id")
@@ -108,7 +108,7 @@ func (h *topicHandler) DeleteTopic(c *gin.Context) {
 	c.JSON(statusCode, dto.DeleteTopicResponse{TopicID: deletedTopicID})
 }
 
-func (h *topicHandler) RouteList() {
+func (h *Handler) RouteList() {
 	h.api.POST("/topics", h.CreateTopic)
 	h.api.PUT("/topics/:topic_id/update", h.UpdateTopic)
 	h.api.DELETE("/topics/:topic_id/delete", h.DeleteTopic)
