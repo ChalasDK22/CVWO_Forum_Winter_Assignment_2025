@@ -19,44 +19,43 @@ import (
 )
 
 func main() {
-	chalas_router := gin.Default()
-	chalas_validate := validator.New()
+	chalasRouter := gin.Default()
+	chalasValidate := validator.New()
 
 	//Config
-	chalas_config, err := config.ConfigLoad()
+	chalasConfig, err := config.ConfigLoad()
 	if err != nil {
 
 		log.Fatal(err)
 	}
 
-	chalas_db, err := internalsql.ConnectAPI_MYSQL(chalas_config)
+	chalasDB, err := internalsql.ConnectAPI_MYSQL(chalasConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	chalas_router.Use(gin.Logger())
-	chalas_router.Use(gin.Recovery())
+	chalasRouter.Use(gin.Logger())
+	chalasRouter.Use(gin.Recovery())
 
-	chalas_router.GET("/checking-chalas-health", func(c *gin.Context) {
+	chalasRouter.GET("/checking-chalas-health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "OK",
 		})
 	})
 
 	//Repos
-	chalasTopicRepos := topicRepos.NewTopicRepository(chalas_db)
-	chalasPostRepos := postRepos.NewPostRepository(chalas_db)
+	chalasTopicRepos := topicRepos.NewTopicRepository(chalasDB)
+	chalasPostRepos := postRepos.NewPostRepository(chalasDB)
 
 	//Services
-	chalasTopicService := topicService.NewTopicService(chalas_config, chalasTopicRepos)
-	chalasPostService := postService.NewPostService(chalas_config, chalasPostRepos)
+	chalasTopicService := topicService.NewTopicService(chalasConfig, chalasTopicRepos)
+	chalasPostService := postService.NewPostService(chalasConfig, chalasPostRepos)
 
 	//Handlers
-	chalasTopicHandler := topicHandler.NewTopicHandler(chalas_router, chalas_validate, chalasTopicService)
-	chalasPostHandler := postHandler.NewPostHandler(chalas_router, chalas_validate, chalasPostService)
+	chalasTopicHandler := topicHandler.NewTopicHandler(chalasRouter, chalasValidate, chalasTopicService)
+	chalasPostHandler := postHandler.NewPostHandler(chalasRouter, chalasValidate, chalasPostService)
 
 	chalasTopicHandler.RouteList()
 	chalasPostHandler.RouteList()
-	chalas_router.Run(fmt.Sprintf("%v:%s", chalas_config.Chalas_Forum_Host, chalas_config.WebAPP_Port))
-	fmt.Println((chalasTopicHandler))
+	_ = chalasRouter.Run(fmt.Sprintf("%v:%s", chalasConfig.Chalas_Forum_Host, chalasConfig.WebAPP_Port))
 }
