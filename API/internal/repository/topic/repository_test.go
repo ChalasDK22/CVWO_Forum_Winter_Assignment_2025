@@ -41,7 +41,22 @@ func TestTopicRepository_UpdateTopic(t *testing.T) {
 	testRepo := NewTopicRepository(chalasMyDB)
 	testTopic := testutil.NewUpdatedTopicTestModel()
 
-	err = testRepo.UpdateRepoTopic(context.Background(), 16, testTopic)
+	err = testRepo.UpdateTopic(context.Background(), 16, testTopic)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
+func TestTopicRepository_DeleteTopic(t *testing.T) {
+	chalasconfig, err := config.ConfigLoad()
+	chalasMyDB, err := internalsql.ConnectAPI_MYSQL(chalasconfig)
+	if err != nil {
+		fmt.Println(err)
+	}
+	test_repo := NewTopicRepository(chalasMyDB)
+
+	err = test_repo.DeleteTopic(context.Background(), 16)
 	if err != nil {
 		t.Fatal(err)
 	}

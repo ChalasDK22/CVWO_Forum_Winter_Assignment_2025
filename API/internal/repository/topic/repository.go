@@ -11,6 +11,7 @@ type TopicRepository interface {
 	InsertTopic(ctx context.Context, model *models.TopicModel) (int64, error)
 	GetTopicbyID(ctx context.Context, topic_id int64) (*models.TopicModel, error)
 	UpdateTopic(ctx context.Context, topic_id int64, model *models.TopicModel) error
+	DeleteTopic(ctx context.Context, topicID int64) error
 }
 
 type topicRepository struct {
@@ -23,6 +24,7 @@ func NewTopicRepository(db *sql.DB) *topicRepository {
 	}
 }
 
+// Repo Method to create topic
 func (repo *topicRepository) InsertTopic(ctx context.Context, model *models.TopicModel) (int64, error) {
 	query := "INSERT INTO `TOPICS` (`user_id`, `name`, `description`) VALUES ( ?, ?, ?)"
 
@@ -50,16 +52,35 @@ func (repo *topicRepository) GetTopicbyID(ctx context.Context, topicID int64) (*
 	return &resultedTopic, nil
 }
 
+// Repo Method to update topic
 func (repo *topicRepository) UpdateTopic(ctx context.Context, topicID int64, model *models.TopicModel) error {
 	query := "UPDATE `TOPICS` SET `user_id` = ?, `name` = ?, description = ? WHERE topic_id = ?"
 
-	updated_row, err := repo.db.ExecContext(ctx, query, model.UserID, model.Name, model.Desription, topicID)
+	updatedRow, err := repo.db.ExecContext(ctx, query, model.UserID, model.Name, model.Desription, topicID)
 
 	if err != nil {
 		return err
 	}
 
-	rowsAffected, _ := updated_row.RowsAffected()
+	rowsAffected, _ := updatedRow.RowsAffected()
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}
+
+// Repo Method to delete topic
+func (repo *topicRepository) DeleteTopic(ctx context.Context, topicID int64) error {
+	query := "DELETE FROM `TOPICS` WHERE topic_id = ?"
+
+	deletedRow, err := repo.db.ExecContext(ctx, query, topicID)
+
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, _ := deletedRow.RowsAffected()
 	if rowsAffected == 0 {
 		return sql.ErrNoRows
 	}

@@ -6,6 +6,9 @@ import (
 	"net/http"
 
 	"chalas.com/forum_project/API/internal/config"
+	postHandler "chalas.com/forum_project/API/internal/handler/post"
+	postRepos "chalas.com/forum_project/API/internal/repository/post"
+	postService "chalas.com/forum_project/API/internal/service/post"
 
 	topicHandler "chalas.com/forum_project/API/internal/handler/topic"
 	topicRepos "chalas.com/forum_project/API/internal/repository/topic"
@@ -42,14 +45,18 @@ func main() {
 
 	//Repos
 	chalasTopicRepos := topicRepos.NewTopicRepository(chalas_db)
+	chalasPostRepos := postRepos.NewPostRepository(chalas_db)
 
 	//Services
 	chalasTopicService := topicService.NewTopicService(chalas_config, chalasTopicRepos)
+	chalasPostService := postService.NewPostService(chalas_config, chalasPostRepos)
 
 	//Handlers
 	chalasTopicHandler := topicHandler.NewTopicHandler(chalas_router, chalas_validate, chalasTopicService)
+	chalasPostHandler := postHandler.NewPostHandler(chalas_router, chalas_validate, chalasPostService)
 
 	chalasTopicHandler.RouteList()
+	chalasPostHandler.RouteList()
 	chalas_router.Run(fmt.Sprintf("%v:%s", chalas_config.Chalas_Forum_Host, chalas_config.WebAPP_Port))
 	fmt.Println((chalasTopicHandler))
 }

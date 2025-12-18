@@ -23,9 +23,9 @@ func ConfigLoad() (*Config, error) {
 
 	//{
 	var _, b, _, _ = runtime.Caller(0)
-	var ProjectRootPath = filepath.Join(filepath.Dir(b), "../../../")
-	fmt.Println(ProjectRootPath)
-	err := godotenv.Load(ProjectRootPath + "/.env")
+	var RootPath = filepath.Join(filepath.Dir(b), "../../../")
+	fmt.Println(RootPath)
+	err := godotenv.Load(RootPath + "/.env")
 	//}
 	//err := godotenv.Load(".env")
 	if err != nil {

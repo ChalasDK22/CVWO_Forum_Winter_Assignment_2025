@@ -13,7 +13,8 @@ import (
 
 type TopicService interface {
 	CreateTopic(ctx context.Context, dtoReq *dto.CreateTopicRequest, userID int64) (int64, int, error)
-	UpdateTopic(ctx context.Context, dtoReq *dto.Update_Topic_Request, topicID int64, userID int64) (int, error)
+	UpdateTopic(ctx context.Context, dtoReq *dto.UpdateTopicRequest, topicID int64, userID int64) (int, error)
+	DeleteTopic(ctx context.Context, topicID int64) (int, error)
 }
 
 type topicService struct {
@@ -45,12 +46,23 @@ func (service *topicService) CreateTopic(ctx context.Context, dtoReq *dto.Create
 
 //Update Topic
 
-func (service *topicService) UpdateTopic(ctx context.Context, dtoReq *dto.Update_Topic_Request, topicID int64, userID int64) (int, error) {
+func (service *topicService) UpdateTopic(ctx context.Context, dtoReq *dto.UpdateTopicRequest, topicID int64, userID int64) (int, error) {
 	err := service.topicrepos.UpdateTopic(ctx, topicID, &models.TopicModel{
 		UserID:     userID,
 		Name:       dtoReq.Name,
 		Desription: dtoReq.Description,
 	})
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	return http.StatusOK, nil
+}
+
+//Delete Topic
+
+func (service *topicService) DeleteTopic(ctx context.Context, topicID int64) (int, error) {
+	err := service.topicrepos.DeleteTopic(ctx, topicID)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
