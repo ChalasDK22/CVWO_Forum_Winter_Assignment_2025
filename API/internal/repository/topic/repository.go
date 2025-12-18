@@ -18,7 +18,7 @@ type topicRepository struct {
 	db *sql.DB
 }
 
-func NewTopicRepository(db *sql.DB) *topicRepository {
+func NewTopicRepository(db *sql.DB) TopicRepository {
 	return &topicRepository{
 		db: db,
 	}
