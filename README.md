@@ -34,8 +34,11 @@ FORUM_PORT=8080
 FORUM_JWT=your_secret_key
 DATABASE_URL=adminuser:12345678@tcp(localhost:3306)/defaultdb?parseTime=true
 ```
-
-4) Run backend
+4) Import database schema/data (SQL file).
+```bash
+mysql -h localhost -P 3306 -u adminuser -p defaultdb < DB/Scripts/forum-db-3.sql
+```
+5) Run backend
 ```bash
 cd CVWO_Forum_Winter_Assignment_2025
 go mod tidy
@@ -43,7 +46,7 @@ go run ./API/cmd/main.go
 ```
 Backend: http://localhost:8080
 
-5) Update frontend baseUrl (Login API component)  
+6) Update frontend baseUrl (Login API component)  
    Change:
 ```ts
 export const baseUrl = "https://cvwo-forum-winter-assignment-2025.onrender.com/";
@@ -53,7 +56,7 @@ To:
 export const baseUrl = "http://localhost:8080/";
 ```
 
-6) Run frontend
+7) Run frontend
 ```bash
 cd CVWO_WinterAssignment_WebApp
 npm install
