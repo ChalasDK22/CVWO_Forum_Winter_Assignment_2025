@@ -4,8 +4,6 @@ import (
 	//"fmt"
 	"fmt"
 	"os"
-	"path/filepath"
-	"runtime"
 
 	"github.com/joho/godotenv"
 )
@@ -23,38 +21,26 @@ type Config struct {
 
 func ConfigLoad() (*Config, error) {
 
-	//{
-	var _, b, _, _ = runtime.Caller(0)
-	var RootPath = filepath.Join(filepath.Dir(b), "../../../")
-	fmt.Println(RootPath)
-	err := godotenv.Load(RootPath + "/.env")
-	//}
-	//err := godotenv.Load(".env")
-	if err != nil {
-		return nil, fmt.Errorf(err.Error())
+	// Only load .env in LOCAL development
+	if os.Getenv("ENV") != "production" {
+		_ = godotenv.Load(".env") // ignore error on purpose
 	}
 
-	//if err != nil {
-	//	return nil, fmt.Errorf(err.Error())
-	//}
-	//return &Config{
-	//	WebAPP_Port:                 os.Getenv("FORUM_PORT"),
-	//	Chalas_Forum_Host:           os.Getenv("FORUM_DB_HOST"),
-	//	Chalas_Forum_Port:           os.Getenv("FORUM_DB_PORT"),
-	//	Chalas_Forum_Name:           os.Getenv("FORUM_DB_NAME"),
-	//	Chalas_Forum_Admin_Username: os.Getenv("FORUM_ADMIN_USER"),
-	//	Chalas_Forum_Admin_Password: os.Getenv("FORUM_ADMIN_PASSWORDS"),
-	//	Chalas_JWT:                  os.Getenv("FORUM_JWT"),
-	//}, nil
-
 	cfg := &Config{
-		WebAPP_Port:   os.Getenv("FORUM_PORT"),
+		WebAPP_Port:   os.Getenv("FORUM_PORT"), // Render provides PORT
 		Chalas_DB_Url: os.Getenv("DATABASE_URL"),
 		Chalas_JWT:    os.Getenv("FORUM_JWT"),
 	}
 
+	// Fallback for local dev
+	if cfg.WebAPP_Port == "" {
+		cfg.WebAPP_Port = os.Getenv("FORUM_PORT")
+	}
+	if cfg.WebAPP_Port == "" {
+		cfg.WebAPP_Port = "8080"
+	}
+
 	if cfg.Chalas_DB_Url == "" {
-		fmt.Println(cfg.Chalas_DB_Url)
 		return nil, fmt.Errorf("DATABASE_URL is missing")
 	}
 
