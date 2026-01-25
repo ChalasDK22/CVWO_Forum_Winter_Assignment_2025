@@ -22,7 +22,7 @@ func NewUserRepository(db *sql.DB) UserRepository {
 }
 
 func (repo *userRepository) GetUser(ctx context.Context, username string) (*models.UserModel, error) {
-	query := `SELECT user_id, username, password, registration_date  FROM users WHERE username = ?`
+	query := `SELECT user_id, username, password, registration_date  FROM USERS WHERE username = ?`
 	selectedRow := repo.db.QueryRowContext(ctx, query, username)
 	var resultedUser models.UserModel
 	err := selectedRow.Scan(&resultedUser.UserID, &resultedUser.Username, &resultedUser.Password, &resultedUser.RegistrationDate)
