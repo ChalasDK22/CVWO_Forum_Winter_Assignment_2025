@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -85,5 +84,12 @@ func main() {
 	chalasPostHandler.RouteList(chalasJWTKey)
 	chalasUserHandler.RouteList()
 	chalasCommentHandler.RouteList(chalasJWTKey)
-	_ = chalasRouter.Run(fmt.Sprintf("%v:%s", chalasConfig.Chalas_Forum_Host, chalasConfig.WebAPP_Port))
+	port := chalasConfig.WebAPP_Port
+	if port == "" {
+		port = "8080"
+	}
+
+	if err := chalasRouter.Run(":" + port); err != nil {
+		log.Fatal(err)
+	}
 }

@@ -11,13 +11,14 @@ import (
 )
 
 type Config struct {
-	WebAPP_Port                 string
-	Chalas_Forum_Host           string
-	Chalas_Forum_Port           string
-	Chalas_Forum_Name           string
-	Chalas_Forum_Admin_Username string
-	Chalas_Forum_Admin_Password string
-	Chalas_JWT                  string
+	WebAPP_Port string
+	//Chalas_Forum_Host           string
+	//Chalas_Forum_Port           string
+	//Chalas_Forum_Name           string
+	//Chalas_Forum_Admin_Username string
+	//Chalas_Forum_Admin_Password string
+	Chalas_JWT    string
+	Chalas_DB_Url string
 }
 
 func ConfigLoad() (*Config, error) {
@@ -32,13 +33,30 @@ func ConfigLoad() (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}
-	return &Config{
-		WebAPP_Port:                 os.Getenv("FORUM_PORT"),
-		Chalas_Forum_Host:           os.Getenv("FORUM_DB_HOST"),
-		Chalas_Forum_Port:           os.Getenv("FORUM_DB_PORT"),
-		Chalas_Forum_Name:           os.Getenv("FORUM_DB_NAME"),
-		Chalas_Forum_Admin_Username: os.Getenv("FORUM_ADMIN_USER"),
-		Chalas_Forum_Admin_Password: os.Getenv("FORUM_ADMIN_PASSWORDS"),
-		Chalas_JWT:                  os.Getenv("FORUM_JWT"),
-	}, nil
+
+	//if err != nil {
+	//	return nil, fmt.Errorf(err.Error())
+	//}
+	//return &Config{
+	//	WebAPP_Port:                 os.Getenv("FORUM_PORT"),
+	//	Chalas_Forum_Host:           os.Getenv("FORUM_DB_HOST"),
+	//	Chalas_Forum_Port:           os.Getenv("FORUM_DB_PORT"),
+	//	Chalas_Forum_Name:           os.Getenv("FORUM_DB_NAME"),
+	//	Chalas_Forum_Admin_Username: os.Getenv("FORUM_ADMIN_USER"),
+	//	Chalas_Forum_Admin_Password: os.Getenv("FORUM_ADMIN_PASSWORDS"),
+	//	Chalas_JWT:                  os.Getenv("FORUM_JWT"),
+	//}, nil
+
+	cfg := &Config{
+		WebAPP_Port:   os.Getenv("FORUM_PORT"),
+		Chalas_DB_Url: os.Getenv("DATABASE_URL"),
+		Chalas_JWT:    os.Getenv("FORUM_JWT"),
+	}
+
+	if cfg.Chalas_DB_Url == "" {
+		fmt.Println(cfg.Chalas_DB_Url)
+		return nil, fmt.Errorf("DATABASE_URL is missing")
+	}
+
+	return cfg, nil
 }
