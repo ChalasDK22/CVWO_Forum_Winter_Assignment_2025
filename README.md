@@ -1,6 +1,8 @@
 # CVWO-WinterAssignment
 Name: Vu Dang Khoa
 
+
+
 https://chalasdk-cvwo-winter-assignment-web-app.vercel.app/
 
 Frontend Repo: https://github.com/ChalasDK22/CVWO_WinterAssignment_WebApp.git  
@@ -65,3 +67,4 @@ npm run dev
 ```
 Frontend: http://localhost:5173
 
+- AI is used only to populate more data and review code, not to directly generate any commands.
