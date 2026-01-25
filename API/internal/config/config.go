@@ -17,6 +17,7 @@ type Config struct {
 	Chalas_Forum_Name           string
 	Chalas_Forum_Admin_Username string
 	Chalas_Forum_Admin_Password string
+	Chalas_JWT                  string
 }
 
 func ConfigLoad() (*Config, error) {
@@ -38,5 +39,6 @@ func ConfigLoad() (*Config, error) {
 		Chalas_Forum_Name:           os.Getenv("FORUM_DB_NAME"),
 		Chalas_Forum_Admin_Username: os.Getenv("FORUM_ADMIN_USER"),
 		Chalas_Forum_Admin_Password: os.Getenv("FORUM_ADMIN_PASSWORDS"),
+		Chalas_JWT:                  os.Getenv("FORUM_JWT"),
 	}, nil
 }
