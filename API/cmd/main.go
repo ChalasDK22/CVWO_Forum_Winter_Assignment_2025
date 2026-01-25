@@ -33,7 +33,7 @@ func main() {
 
 	//Allow connections from the frontend
 	chalasRouter.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "https://chalasdk-cvwo-forum.vercel.app"},
+		AllowOrigins:     []string{"http://localhost:5173", "https://chalasdk-cvwo-winter-assignment-web-app.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
