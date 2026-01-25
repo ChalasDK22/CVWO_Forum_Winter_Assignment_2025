@@ -4,7 +4,7 @@ services:
     container_name: forum_mysql
     environment:
       MYSQL_ROOT_PASSWORD: hellochalasdk
-      MYSQL_DATABASE: forum-db
+      MYSQL_DATABASE: defaultdb
       MYSQL_USER: adminuser
       MYSQL_PASSWORD: 12345678
     ports:
