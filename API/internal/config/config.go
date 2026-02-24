@@ -21,13 +21,12 @@ type Config struct {
 
 func ConfigLoad() (*Config, error) {
 
-	// Only load .env in LOCAL development
 	if os.Getenv("ENV") != "production" {
-		_ = godotenv.Load(".env") // ignore error on purpose
+		_ = godotenv.Load(".env") 
 	}
 
 	cfg := &Config{
-		WebAPP_Port:   os.Getenv("FORUM_PORT"), // Render provides PORT
+		WebAPP_Port:   os.Getenv("FORUM_PORT"),
 		Chalas_DB_Url: os.Getenv("DATABASE_URL"),
 		Chalas_JWT:    os.Getenv("FORUM_JWT"),
 	}
